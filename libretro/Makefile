@@ -95,15 +95,15 @@ else ifeq ($(platform), osx)
    TARGET := $(TARGET_NAME)_libretro.dylib
    fpic := -fPIC
    SHARED := -dynamiclib
-   arch = intel
-   ifeq ($(shell uname -p),arm64)
-      arch = arm
-   endif
+   arch = universal
    ifeq ($(shell uname -p),powerpc)
       arch = ppc
    endif
    ifeq ($(arch),ppc)
       CXXFLAGS += -DBLARGG_BIG_ENDIAN=1 -D__ppc__
+   else
+      CXXFLAGS += $(ARCHFLAGS)
+      LDFLAGS += $(ARCHFLAGS)
    endif
    MINVERSION =
    OSXVER = $(shell sw_vers -productVersion | cut -d. -f 2)
